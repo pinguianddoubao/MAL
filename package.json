@@ -1,0 +1,63 @@
+{
+  "name": "mal-launcher",
+  "productName": "MAL",
+  "version": "3.5.0",
+  "description": "MAL - cross-platform, AI-powered Minecraft launcher (Windows / Linux / macOS / Android)",
+  "author": "MAL Team",
+  "license": "GPL-3.0-only",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "server": "node server/server.js",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:mac": "electron-builder --mac",
+    "dist:all": "electron-builder -w -l -m"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.mal.launcher",
+    "productName": "MAL",
+    "directories": { "output": "release", "buildResources": "build" },
+    "files": [
+      "electron/**/*",
+      "app/**/*",
+      "server/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64", "ia32"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "app/assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "MAL"
+    },
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] },
+        { "target": "deb", "arch": ["x64"] },
+        { "target": "tar.gz", "arch": ["x64"] }
+      ],
+      "icon": "app/assets/icon.png",
+      "category": "Game"
+    },
+    "mac": {
+      "target": [ { "target": "dmg", "arch": ["x64", "arm64"] } ],
+      "icon": "app/assets/icon.png",
+      "category": "public.app-category.games"
+    }
+  }
+}
