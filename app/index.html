@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MAL</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== 开屏画面 ===== -->
+<div class="splash-screen" id="splashScreen">
+  <canvas class="splash-particles" id="splashParticles"></canvas>
+  <div class="splash-grid"></div>
+  <div class="splash-content">
+    <div class="splash-icon-container">
+      <div class="splash-icon glitch-icon">
+        <img src="assets/icon.svg" alt="MAL" class="splash-icon-img">
+        <div class="glitch-layer glitch-red"></div>
+        <div class="glitch-layer glitch-cyan"></div>
+      </div>
+      <div class="splash-ring"></div>
+      <div class="splash-ring splash-ring-2"></div>
+    </div>
+    <h1 class="splash-title">
+      <span class="title-letter">M</span>
+      <span class="title-letter">A</span>
+      <span class="title-letter">L</span>
+    </h1>
+    <p class="splash-subtitle">Minecraft 启动器 · AI 驱动</p>
+    <div class="splash-progress-container">
+      <div class="splash-progress-bar" id="splashProgressBar"></div>
+      <div class="splash-progress-glow"></div>
+    </div>
+    <p class="splash-status" id="splashStatus">正在初始化...</p>
+    <p class="splash-version">v3.5.0 · MAL Team</p>
+  </div>
+  <div class="splash-bottom-line">
+    <div class="line-red"></div>
+    <div class="line-cyan"></div>
+  </div>
+  <button class="splash-skip" id="splashSkip">跳过</button>
+</div>
+
+<!-- ===== 主界面 ===== -->
+<div class="main-app hidden" id="mainApp">
+  <header class="app-header">
+    <div class="header-logo">
+      <img src="assets/icon.svg" alt="MAL" class="header-icon">
+      <span class="header-title">MAL</span>
+    </div>
+    <nav class="header-nav">
+      <button class="nav-btn active" data-page="home" data-i18n="nav_home">首页</button>
+      <button class="nav-btn" data-page="versions" data-i18n="nav_versions">版本</button>
+      <button class="nav-btn" data-page="mods" data-i18n="nav_mods">模组</button>
+      <button class="nav-btn" data-page="ai" data-i18n="nav_ai">AI</button>
+      <button class="nav-btn" data-page="settings" data-i18n="nav_settings">设置</button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <section class="page active" id="page-home">
+      <div class="update-banner hidden" id="updateBanner">
+        <span class="update-banner-icon">✨</span>
+        <div class="update-banner-text" id="updateBannerText">发现新版本</div>
+        <button class="update-banner-btn" id="updateBannerBtn">查看</button>
+      </div>
+      <div class="hero-section">
+        <div class="hero-icon-large">
+          <img src="assets/icon.svg" alt="MAL" class="hero-img">
+        </div>
+        <h1 class="hero-title">MAL</h1>
+        <p class="hero-subtitle" data-i18n="home_subtitle">下一代 Minecraft 启动器 · 全版本支持 · AI 驱动</p>
+
+        <div class="launch-panel">
+          <div class="native-account hidden" id="nativeAccount">
+            <div class="account-row">
+              <input type="text" id="nativeUsername" class="setting-input" data-i18n-ph="offline_placeholder" placeholder="离线账号用户名（3-16位字母数字_）" maxlength="16">
+              <button class="account-login-btn" id="nativeLoginBtn" data-i18n="login">登录</button>
+            </div>
+            <button class="microsoft-login-btn" id="microsoftLoginBtn">
+              <span class="ms-icon"></span><span data-i18n="microsoftLogin">微软正版登录</span>
+            </button>
+            <div class="account-current" id="nativeAccountInfo"></div>
+          </div>
+          <div class="version-selector">
+            <span class="version-label" data-i18n="current_version">当前版本</span>
+            <select class="version-dropdown" id="versionDropdown">
+              <option>1.20.4 (最新)</option>
+              <option>1.20.1</option>
+              <option>1.19.4</option>
+              <option>1.18.2</option>
+            </select>
+          </div>
+          <button class="launch-btn" id="launchBtn">
+            <span class="launch-text" data-i18n="launch_game">启动游戏</span>
+            <span class="launch-icon">▶</span>
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">910+</span>
+            <span class="stat-label" data-i18n="stat_versions">游戏版本</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">6</span>
+            <span class="stat-label" data-i18n="stat_mods">官方模组</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">AI</span>
+            <span class="stat-label" data-i18n="stat_ai">智能助手</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-versions">
+      <h2 class="page-title" data-i18n="versions_title">版本管理</h2>
+      <p class="page-desc" data-i18n="versions_desc">支持所有 Minecraft 版本</p>
+    </section>
+    <section class="page" id="page-mods">
+      <h2 class="page-title" data-i18n="mods_title">模组中心</h2>
+      <p class="page-desc" data-i18n="mods_desc">Modrinth + CurseForge 双库支持</p>
+    </section>
+    <section class="page" id="page-ai">
+      <h2 class="page-title" data-i18n="ai_title">AI 管理中心</h2>
+      <p class="page-desc" data-i18n="ai_desc">由 MAL 服务端 AI 自动管理更新与维护</p>
+
+      <div class="ai-server-card" id="serverCard">
+        <div class="server-conn-row">
+          <span class="conn-indicator" id="connIndicator"></span>
+          <div class="server-conn-info">
+            <div class="server-conn-title" id="connTitle">正在连接 MAL 服务端...</div>
+            <div class="server-conn-url" id="connUrl"></div>
+          </div>
+          <button class="ai-mini-btn" id="reconnectBtn">重连</button>
+        </div>
+      </div>
+
+      <div class="ai-feature-grid">
+        <div class="ai-feature" id="featureUpdates">
+          <div class="ai-feature-icon">🔄</div>
+          <div class="ai-feature-name">检查更新</div>
+          <div class="ai-feature-desc">启动器与模组</div>
+        </div>
+        <div class="ai-feature" id="featureMaintenance">
+          <div class="ai-feature-icon">🛠️</div>
+          <div class="ai-feature-name">系统维护</div>
+          <div class="ai-feature-desc">清理与优化</div>
+        </div>
+        <div class="ai-feature" id="featureRecommend">
+          <div class="ai-feature-icon">💡</div>
+          <div class="ai-feature-name">智能推荐</div>
+          <div class="ai-feature-desc">个性化模组</div>
+        </div>
+        <div class="ai-feature" id="featureDiagnose">
+          <div class="ai-feature-icon">🩺</div>
+          <div class="ai-feature-name">错误诊断</div>
+          <div class="ai-feature-desc">分析与修复</div>
+        </div>
+      </div>
+
+      <div class="ai-result-panel" id="aiResultPanel">
+        <div class="ai-result-header">
+          <span id="aiResultTitle">AI 输出</span>
+          <button class="ai-mini-btn" id="aiResultClose">关闭</button>
+        </div>
+        <div class="ai-result-body" id="aiResultBody"></div>
+      </div>
+
+      <div class="ai-status-grid" id="aiStatusGrid">
+        <div class="ai-stat"><div class="ai-stat-val" id="statUptime">--</div><div class="ai-stat-label">服务端运行</div></div>
+        <div class="ai-stat"><div class="ai-stat-val" id="statLaunches">0</div><div class="ai-stat-label">总启动数</div></div>
+        <div class="ai-stat"><div class="ai-stat-val" id="statHealth">--</div><div class="ai-stat-label">健康状态</div></div>
+        <div class="ai-stat"><div class="ai-stat-val" id="statUpdates">0</div><div class="ai-stat-label">待更新</div></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <h2 class="page-title" data-i18n="settings_title">设置</h2>
+      <p class="page-desc" data-i18n="settings_desc">服务端与个性化配置</p>
+
+      <div class="settings-group">
+        <h3 class="settings-group-title">🌐 <span data-i18n="language">语言</span></h3>
+        <div class="setting-row">
+          <label class="setting-label" data-i18n="language">语言</label>
+          <select class="setting-input" id="languageSelect" style="width:auto;padding:8px 12px;">
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3 class="settings-group-title">🌐 MAL 服务端</h3>
+        <div class="setting-row">
+          <label class="setting-label">运行方式</label>
+          <div class="mode-switch" id="modeSwitch">
+            <button type="button" class="mode-btn active" data-mode="local">📱 本机运行</button>
+            <button type="button" class="mode-btn" data-mode="remote">☁️ 远程服务器</button>
+          </div>
+        </div>
+        <div class="setting-row" id="serverUrlRow">
+          <label class="setting-label">服务器地址</label>
+          <input type="text" class="setting-input" id="serverUrlInput" placeholder="http://服务器IP:3000">
+        </div>
+        <div class="setting-row">
+          <label class="setting-label">自动检查更新</label>
+          <label class="switch"><input type="checkbox" id="autoUpdateSwitch" checked><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <label class="setting-label">自动系统维护</label>
+          <label class="switch"><input type="checkbox" id="autoMaintSwitch" checked><span class="slider"></span></label>
+        </div>
+        <button class="settings-save-btn" id="saveServerBtn">保存并连接</button>
+      </div>
+
+      <div class="settings-group">
+        <h3 class="settings-group-title">🔑 模组库 API</h3>
+        <div class="setting-row">
+          <label class="setting-label">CurseForge API Key</label>
+          <input type="password" class="setting-input" id="curseforgeKeyInput" placeholder="可选，用于 CurseForge">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="mobile-nav">
+    <button class="mobile-nav-item active" data-page="home"><span>🏠</span><span data-i18n="nav_home">首页</span></button>
+    <button class="mobile-nav-item" data-page="versions"><span>📦</span><span data-i18n="nav_versions">版本</span></button>
+    <button class="mobile-nav-item" data-page="mods"><span>🧩</span><span data-i18n="nav_mods">模组</span></button>
+    <button class="mobile-nav-item" data-page="ai"><span>🤖</span><span>AI</span></button>
+    <button class="mobile-nav-item" data-page="settings"><span>⚙️</span><span data-i18n="nav_settings">设置</span></button>
+  </nav>
+</div>
+
+<script src="js/splash.js"></script>
+<script src="js/local/local-server.js"></script>
+<script src="js/server-api.js"></script>
+<script src="js/i18n/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
